@@ -5,6 +5,7 @@ import java.math.BigInteger;
 import java.security.InvalidAlgorithmParameterException;
 import java.security.InvalidKeyException;
 import java.security.NoSuchAlgorithmException;
+import java.util.Random;
 
 public class EKE {
     public static void main(String[] args) throws NoSuchAlgorithmException, InvalidAlgorithmParameterException, NoSuchPaddingException, IllegalBlockSizeException, BadPaddingException, InvalidKeyException {
@@ -20,7 +21,8 @@ public class EKE {
         }
         BigInteger p;
         try {
-            p = BigInteger.ONE.shiftLeft(Integer.parseInt(args[0])).nextProbablePrime();
+            Random rnd = new Random();
+            p = BigInteger.probablePrime(Integer.parseInt(args[0]), rnd);
         } catch (NumberFormatException e) {
             System.out.println("Входные параметры заданы некорректно. Было передано не число.\n" + e.getMessage());
             return;
