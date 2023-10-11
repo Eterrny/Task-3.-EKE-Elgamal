@@ -1,0 +1,8 @@
+<component name="ArtifactManager">
+  <artifact type="jar" build-on-make="true" name="EKE:jar">
+    <output-path>$PROJECT_DIR$/out/artifacts/EKE_jar</output-path>
+    <root id="archive" name="EKE.jar">
+      <element id="module-output" name="Task 3. EKE-Elgamal" />
+    </root>
+  </artifact>
+</component>
