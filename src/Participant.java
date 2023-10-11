@@ -21,7 +21,6 @@ public class Participant {
     private SecretKey sessionKey;
     private final String algorithm = "AES/CBC/PKCS5Padding";
     private String randomString;
-//    private KeyHash keyHash;
 
 
     public String getName() {
@@ -52,17 +51,12 @@ public class Participant {
         return randomString;
     }
 
-    //    public KeyHash getKeyHash() {
-//        return keyHash;
-//    }
-
     public void generateSessionKey(BigInteger p) {
         SecureRandom rnd = new SecureRandom();
         do {
             this.sessionKeyInt = new BigInteger(p.bitLength(), rnd).mod(p);
         } while (this.sessionKeyInt.equals(BigInteger.ZERO));
         setSessionKey(this.sessionKeyInt);
-//        keyHash = new KeyHash(sessionKey);
     }
 
     public void setSessionKey(BigInteger sessionKeyInt) {
@@ -111,22 +105,4 @@ public class Participant {
                 .collect(StringBuilder::new, StringBuilder::appendCodePoint, StringBuilder::append)
                 .toString();
     }
-
-//    public class KeyHash {
-//        private BigInteger keyBigInt;
-//        private String keyString;
-//
-//        public BigInteger getKeyBigInt() {
-//            return keyBigInt;
-//        }
-//
-//        public String getKeyString() {
-//            return keyString;
-//        }
-//
-//        public KeyHash(SecretKey key){
-//            this.keyString = AESService.convertSecretKeyToString(key);
-//            this.keyBigInt = new BigInteger(String.valueOf(keyString.hashCode()));
-//        }
-//    }
 }

@@ -22,7 +22,6 @@ public class EKEService {
     public EKEService(BigInteger p) throws NoSuchAlgorithmException, InvalidAlgorithmParameterException, NoSuchPaddingException, IllegalBlockSizeException, BadPaddingException, InvalidKeyException {
         this.p = p;
         this.g = generatePrimitiveRoot(p);
-        //this.keyLength = keyLength;
         AESService aes = new AESService();
         this.alice = new Participant("Алиса", p, g, aes);
         this.bob = new Participant("Боб", p, g, aes);
@@ -43,18 +42,12 @@ public class EKEService {
 
     private void step2(String alice, BigInteger y) throws NoSuchAlgorithmException, InvalidAlgorithmParameterException, NoSuchPaddingException, IllegalBlockSizeException, BadPaddingException, InvalidKeyException {
         System.out.println("\n--- Шаг 2 ---");
-//        bob.setSessionKey(AESService.generateKey(this.keyLength));
         bob.generateSessionKey(p);
         System.out.printf("%s делает следующее:\n", bob.getName());
-//        String key = AESService.convertSecretKeyToString(bob.getSessionKey());
         System.out.printf("\tгенерирует сеансовый ключ К = %s\n", bob.getSessionKeyInt());
         System.out.printf("\tвыбирает закрытый ключ R = %d\n", bob.getPrivateElGamalKey());
         BigInteger kyR = bob.getSessionKeyInt().multiply(y.modPow(bob.getPrivateElGamalKey(), p)).mod(p);
         System.out.printf("\tвычисляет K * yA^R mod p = %d\n", kyR);
-//        if (kyR.equals(BigInteger.ZERO)){
-//            System.out.println("K * yA^R mod p = 0  =>  Нужно сгенерировать К еще раз. Перезапуск шага 2.\n");
-//            step2(alice, y);
-//        }
         String encBobPublicKey = bob.getEncrypted(bob.getY().toString(), bob.getService().getPublicKey());
         System.out.printf("\tзашифровывает свой открытый ключ %d и получает %s\n", bob.getY(), encBobPublicKey);
         String encKYR = bob.getEncrypted(kyR.toString(), bob.getService().getPublicKey());
